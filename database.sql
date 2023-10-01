@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS blog;
 CREATE TABLE integrantes (
   id_mem SERIAL PRIMARY KEY,
   nombre_mem VARCHAR(30),
+  img_mem TEXT NULL,
   pais_mem VARCHAR(30),
   role_mem VARCHAR(50)[],
   info_mem VARCHAR(100)
@@ -28,11 +29,11 @@ CREATE TABLE blog (
   info_blog VARCHAR(200)
 );
 
-INSERT INTO integrantes (nombre_mem,pais_mem,role_mem,info_mem)
+INSERT INTO integrantes (nombre_mem,img_mem,pais_mem,role_mem,info_mem)
 VALUES
-  ('Alejandro Moreno','Colombia',ARRAY ['Diseñador,'Artista'],"Hola, hago arte xd");
+  ('Alejandro Moreno','https://iwannastartaparty.com/img/credits/alejo.webp','Colombia',ARRAY ['Diseñador','Artista'],'Hola, hago arte xd');
 
-INSERT INTO juegos (nombre_juego,genero_juego,estado_juego,info_juego)
+INSERT INTO juegos (nombre_juego,p_img_juego,b_img_juego,genero_juego,estado_juego,info_juego)
 VALUES
   ('Puzzly World',ARRAY ['Aventura','Roguelike'],'En desarrollo','Estoy calvo');
 
