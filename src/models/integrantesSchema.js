@@ -9,13 +9,11 @@ const rolesPermitidos = [
   "Tester"
 ];
 
-const memSchema = z.object({
+export const memSchema = z.object({
   nombre_mem: z.string().trim().min(1).max(30),
+  img_mem: z.nullable(z.string().url()),
   pais_mem: z.string().trim().min(1).max(30),
   role_mem: z.array(z.enum(rolesPermitidos)),
   info_mem: z.string().trim().min(1).max(100),
 });
 
-export function validateMem(input) {
-  return memSchema.safeParse(input);
-}

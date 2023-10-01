@@ -4,25 +4,24 @@ import {
   validatePartialSchema,
 } from "../utils/zodValidationTypes.js";
 
-import { memSchema } from "../models/integrantesSchema.js";
+import { blogSchema } from "../models/blogSchema.js";
 
-export const memController = {
-  getAllMem: async (req, res) => {
+export const blogController = {
+  getAllBlog: async (req, res) => {
     try {
-      const result = await pool.query("SELECT * FROM integrantes");
+      const result = await pool.query("SELECT * FROM blog");
       res.status(200).json(result.rows);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err.message });
     }
   },
-  getMemId: async (req, res) => {
+  getBlogId: async (req, res) => {
     const id = parseInt(req.params.id);
     try {
-      const result = await pool.query(
-        "SELECT * FROM integrantes WHERE id_mem = $1",
-        [id]
-      );
+      const result = await pool.query("SELECT * FROM blog WHERE id_blog = $1", [
+        id,
+      ]);
 
       if (result.rows.length <= 0) {
         return res.status(404).json({ error: "No se encontró el elemento" });
@@ -34,8 +33,8 @@ export const memController = {
       res.status(500).json({ error: err.message });
     }
   },
-  postMem: async (req, res) => {
-    const validated = validateSchema(memSchema, req.body);
+  postBlog: async (req, res) => {
+    const validated = validateSchema(blogSchema, req.body);
 
     if (validated.error) {
       return res
@@ -44,7 +43,7 @@ export const memController = {
     }
 
     try {
-      const query = `INSERT INTO integrantes (${Object.keys(
+      const query = `INSERT INTO blog (${Object.keys(
         validated.data
       ).join(", ")}) VALUES (${Object.keys(validated.data)
         .map((keys, index) => `$${index + 1}`)
@@ -52,15 +51,15 @@ export const memController = {
 
       const result = await pool.query(query, Object.values(validated.data));
 
-      res.status(201).json(result.rows);
+      res.status(201).json(result.rows[0]);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: err.message });
     }
   },
-  updateMem: async (req, res) => {
+  updateBlog: async (req, res) => {
     const id = req.params.id;
-    const dataUpdate = validatePartialSchema(memSchema, req.body);
+    const dataUpdate = validatePartialSchema(blogSchema, req.body);
 
     if (dataUpdate.error) {
       return res
@@ -69,28 +68,22 @@ export const memController = {
     }
 
     try {
-      const query = `UPDATE integrantes SET ${Object.keys(dataUpdate.data)
+      const query = `UPDATE blog SET ${Object.keys(dataUpdate.data)
         .map((key, index) => `${key} = $${index + 2}`)
-        .join(", ")} WHERE id_mem = $1 RETURNING *`;
+        .join(", ")} WHERE id_blog = $1 RETURNING *`;
 
       const values = [id, ...Object.values(dataUpdate.data)];
-
-      // console.log("Query:", query);
-      // console.log("Values:", values);
 
       const result = await pool.query(query, values);
 
       res.status(202).json(result.rows[0]);
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: err.message });
-    }
+    } catch (err) {}
   },
-  deleteMem: async (req, res) => {
+  deleteBlog: async (req, res) => {
     const id = parseInt(req.params.id);
 
     try {
-      await pool.query("DELETE FROM integrantes WHERE id_mem = $1", [id]);
+      await pool.query("DELETE FROM blog WHERE id_blog = $1", [id]);
 
       res.status(202).json(`Miembro con el ID: ${id} fue borrado exitosamente`);
     } catch (err) {

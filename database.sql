@@ -13,8 +13,10 @@ CREATE TABLE integrantes (
 CREATE TABLE juegos (
   id_juego SERIAL PRIMARY KEY,
   nombre_juego VARCHAR(30),
+  p_img_juego TEXT NULL,
+	b_img_juego TEXT NULL,
   genero_juego VARCHAR(50)[],
-  estado_juego VARCHAR(50)[],
+  estado_juego VARCHAR(50),
   info_juego VARCHAR(200)
 );
 
@@ -28,11 +30,11 @@ CREATE TABLE blog (
 
 INSERT INTO integrantes (nombre_mem,pais_mem,role_mem,info_mem)
 VALUES
-  ('Alejandro Moreno','Colombia',['Diseñador,'Artista'],"Hola, hago arte xd");
+  ('Alejandro Moreno','Colombia',ARRAY ['Diseñador,'Artista'],"Hola, hago arte xd");
 
 INSERT INTO juegos (nombre_juego,genero_juego,estado_juego,info_juego)
 VALUES
-  ('Puzzly World',['Aventura','Roguelike'],'En desarrollo','Estoy calvo');
+  ('Puzzly World',ARRAY ['Aventura','Roguelike'],'En desarrollo','Estoy calvo');
 
 INSERT INTO blog (titulo_blog,thumb_blog,info_blog)
 VALUES
