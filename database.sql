@@ -23,6 +23,7 @@ CREATE TABLE juegos (
 
 CREATE TABLE blog (
   id_blog SERIAL PRIMARY KEY,
+  autor_blog VARCHAR(20),
   titulo_blog VARCHAR(30),
   fecha_blog DATE DEFAULT CURRENT_DATE,
   thumb_blog TEXT NULL,

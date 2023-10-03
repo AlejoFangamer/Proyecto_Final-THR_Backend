@@ -10,6 +10,13 @@ export const memController = {
   getAllMem: async (req, res) => {
     try {
       const result = await pool.query("SELECT * FROM integrantes");
+
+      if (result.rows.length == 1) {
+        return res.status(200).json(result.rows[0]);
+      }else if (result.rows.length <= 0) {
+        return res.status(404).json({ error: "No hay elementos" });
+      }
+      
       res.status(200).json(result.rows);
     } catch (err) {
       console.log(err);
