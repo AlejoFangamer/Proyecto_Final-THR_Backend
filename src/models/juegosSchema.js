@@ -24,5 +24,5 @@ export const gameSchema = z.object({
     ),
   genero_juego: z.array(z.enum(generosPermitidos)),
   estado_juego: z.enum(estadosPermitidos).default('En desarrollo'),
-  info_juego: z.string().trim().min(1).max(200),
+  info_juego: z.string().trim().min(1).max(600),
 });
